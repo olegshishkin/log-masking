@@ -26,7 +26,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class MaskApplicationTests {
+class MaskTests {
 
     @BeforeEach
     public void setUp() {
