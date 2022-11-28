@@ -10,7 +10,8 @@ public class MaskedRecursiveToStringStyle extends RecursiveToStringStyle {
     public MaskedRecursiveToStringStyle() {
         this.setUseClassName(false);
         this.setUseIdentityHashCode(false);
-        this.setFieldNameValueSeparator(":");
+        this.setFieldNameValueSeparator(": ");
+        this.setFieldSeparator(", ");
     }
 
     @Override

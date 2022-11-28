@@ -17,7 +17,8 @@ public class MaskedMultilineRecursiveToStringStyle extends MultilineRecursiveToS
     public MaskedMultilineRecursiveToStringStyle() {
         this.setUseClassName(false);
         this.setUseIdentityHashCode(false);
-        this.setFieldNameValueSeparator(":");
+        this.setFieldNameValueSeparator(": ");
+        this.setFieldSeparator(", ");
     }
 
     @Override
