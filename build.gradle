@@ -24,4 +24,6 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testImplementation "com.github.javafaker:javafaker:$javaFakerVersion"
+    testImplementation "org.openjdk.jmh:jmh-core:$jmhVersion"
+    testImplementation "org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion"
 }
