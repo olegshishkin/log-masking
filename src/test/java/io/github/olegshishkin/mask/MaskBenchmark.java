@@ -1,23 +1,16 @@
 package io.github.olegshishkin.mask;
 
-import static io.github.olegshishkin.mask.example.MaskRules.account;
-import static io.github.olegshishkin.mask.example.MaskRules.emailRule;
-import static io.github.olegshishkin.mask.example.MaskRules.full;
 import static java.time.ZoneId.systemDefault;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.github.javafaker.Faker;
 import io.github.olegshishkin.mask.builder.MaskedToStringBuilder;
-import io.github.olegshishkin.mask.builder.masker.MaskerResolver;
 import io.github.olegshishkin.mask.example.Account;
 import io.github.olegshishkin.mask.example.Chief;
 import io.github.olegshishkin.mask.example.Company;
 import io.github.olegshishkin.mask.example.Contacts;
 import io.github.olegshishkin.mask.example.Contract;
 import io.github.olegshishkin.mask.example.Rating;
-import io.github.olegshishkin.mask.example.maskers.AccountMasker;
-import io.github.olegshishkin.mask.example.maskers.EmailMasker;
-import io.github.olegshishkin.mask.example.maskers.FullMasker;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -82,6 +75,19 @@ public class MaskBenchmark {
     @OutputTimeUnit(MILLISECONDS)
     @Warmup(iterations = 1, time = 1, timeUnit = MILLISECONDS)
     @Measurement(iterations = 5, time = 1, timeUnit = MILLISECONDS)
+    public void patternMatcherToString(Context context, Blackhole blackhole) {
+        for (int i = 0; i < context.dataSize; i++) {
+            var str = TestUtils.patternMatcherToString(context.next().toString());
+            blackhole.consume(str);
+        }
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(value = 1, warmups = 1, jvmArgs = {"-Xms2G", "-Xmx2G"})
+    @OutputTimeUnit(MILLISECONDS)
+    @Warmup(iterations = 1, time = 1, timeUnit = MILLISECONDS)
+    @Measurement(iterations = 5, time = 1, timeUnit = MILLISECONDS)
     public void toString(Context context, Blackhole blackhole) {
         for (int i = 0; i < context.dataSize; i++) {
             String str = context.next().toString();
@@ -94,7 +100,7 @@ public class MaskBenchmark {
 
         private Iterator<Company> iterator;
 
-        @Param({"10", "100", "1000"})
+        @Param({"10", "100", "1000", "5000"})
         private int dataSize;
 
         private Company next() {
@@ -106,9 +112,7 @@ public class MaskBenchmark {
 
         @Setup(Level.Invocation)
         public void setUp() {
-            MaskerResolver.putMasker(full, new FullMasker());
-            MaskerResolver.putMasker(emailRule, new EmailMasker());
-            MaskerResolver.putMasker(account, new AccountMasker());
+            TestUtils.prepareMaskerResolver();
 
             Deque<Company> companies = new ArrayDeque<>(dataSize);
 

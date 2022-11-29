@@ -1,23 +1,17 @@
 package io.github.olegshishkin.mask;
 
-import static io.github.olegshishkin.mask.example.MaskRules.account;
-import static io.github.olegshishkin.mask.example.MaskRules.emailRule;
-import static io.github.olegshishkin.mask.example.MaskRules.full;
+import static io.github.olegshishkin.mask.TestUtils.patternMatcherToString;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.MONTHS;
 import static java.time.temporal.ChronoUnit.YEARS;
 
 import io.github.olegshishkin.mask.builder.MaskedToStringBuilder;
-import io.github.olegshishkin.mask.builder.masker.MaskerResolver;
 import io.github.olegshishkin.mask.example.Account;
 import io.github.olegshishkin.mask.example.Chief;
 import io.github.olegshishkin.mask.example.Company;
 import io.github.olegshishkin.mask.example.Contacts;
 import io.github.olegshishkin.mask.example.Contract;
 import io.github.olegshishkin.mask.example.Rating;
-import io.github.olegshishkin.mask.example.maskers.AccountMasker;
-import io.github.olegshishkin.mask.example.maskers.EmailMasker;
-import io.github.olegshishkin.mask.example.maskers.FullMasker;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,9 +24,7 @@ class MaskTests {
 
     @BeforeEach
     public void setUp() {
-        MaskerResolver.putMasker(full, new FullMasker());
-        MaskerResolver.putMasker(emailRule, new EmailMasker());
-        MaskerResolver.putMasker(account, new AccountMasker());
+        TestUtils.prepareMaskerResolver();
     }
 
     @Test
@@ -48,7 +40,10 @@ class MaskTests {
                 contract(),
                 "some very impossible info");
 
+        System.out.println(patternMatcherToString(company.toString()));
+        System.out.println();
         System.out.println(MaskedToStringBuilder.masked(company));
+        System.out.println();
         System.out.println(MaskedToStringBuilder.prettyMasked(company));
     }
 
