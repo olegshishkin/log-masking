@@ -1,0 +1,11 @@
+<configuration>
+  <appender name="STDOUT" class="io.github.olegshishkin.mask.example.logback.MaskConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %green%-5level %logger{36} - %green(%msg%n)</pattern>
+    </encoder>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+  </root>
+</configuration>

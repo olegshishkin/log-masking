@@ -17,9 +17,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@Slf4j
 class MaskTests {
 
     @BeforeEach
@@ -40,11 +42,10 @@ class MaskTests {
                 contract(),
                 "some very impossible info");
 
-        System.out.println(patternMatcherToString(company.toString()));
-        System.out.println();
-        System.out.println(MaskedToStringBuilder.masked(company));
-        System.out.println();
-        System.out.println(MaskedToStringBuilder.prettyMasked(company));
+        log.info("[Pattern Matcher]: {}", patternMatcherToString(company.toString()));
+        log.info("[MaskedToStringBuilder.masked - method]: {}", MaskedToStringBuilder.masked(company));
+        log.info("[MaskedToStringBuilder.masked - logback]: {}", company);
+        log.info("[MaskedToStringBuilder.prettyMasked - method]: {}", MaskedToStringBuilder.prettyMasked(company));
     }
 
     private Chief chief() {

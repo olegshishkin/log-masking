@@ -22,6 +22,7 @@ dependencies {
     // test dependencies
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testImplementation "ch.qos.logback:logback-classic:$logbackVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testImplementation "com.github.javafaker:javafaker:$javaFakerVersion"
     testImplementation "org.openjdk.jmh:jmh-core:$jmhVersion"
