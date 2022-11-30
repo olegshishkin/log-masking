@@ -1,9 +1,8 @@
 package io.github.olegshishkin.mask.builder;
 
-import static io.github.olegshishkin.mask.builder.util.MaskedToStringUtils.isJdkClass;
+import static io.github.olegshishkin.mask.builder.util.MaskedToStringUtils.isRawType;
 
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.builder.MultilineRecursiveToStringStyle;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -23,10 +22,7 @@ public class MaskedMultilineRecursiveToStringStyle extends MultilineRecursiveToS
 
     @Override
     public void appendDetail(StringBuffer buf, String fieldName, Object val) {
-        if (!ClassUtils.isPrimitiveWrapper(val.getClass()) &&
-                !String.class.equals(val.getClass()) &&
-                this.accept(val.getClass())) {
-
+        if (this.accept(val.getClass())) {
             this.setSpaces(this.getSpaces() + this.getIndent());
             this.invokeResetIndent();
             buf.append(new MaskedReflectionToStringBuilder(val, this));
@@ -39,7 +35,7 @@ public class MaskedMultilineRecursiveToStringStyle extends MultilineRecursiveToS
 
     @Override
     protected boolean accept(Class<?> clazz) {
-        return !isJdkClass(clazz) && super.accept(clazz);
+        return !isRawType(clazz) && super.accept(clazz);
     }
 
     @SneakyThrows

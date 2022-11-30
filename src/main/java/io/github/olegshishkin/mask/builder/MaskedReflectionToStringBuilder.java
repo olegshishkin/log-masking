@@ -1,5 +1,7 @@
 package io.github.olegshishkin.mask.builder;
 
+import static io.github.olegshishkin.mask.builder.util.MaskedToStringUtils.isRawType;
+
 import io.github.olegshishkin.mask.annotation.Mask;
 import io.github.olegshishkin.mask.builder.masker.MaskerResolver;
 import java.lang.reflect.Field;
@@ -36,6 +38,14 @@ public class MaskedReflectionToStringBuilder extends ReflectionToStringBuilder {
                 this.append(field.getName(), val, !field.isAnnotationPresent(ToStringSummary.class));
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        if (isRawType(this.getObject().getClass())) {
+            return this.getObject().toString();
+        }
+        return super.toString();
     }
 
     private Object getMaskedValue(Field field, Object o) {
